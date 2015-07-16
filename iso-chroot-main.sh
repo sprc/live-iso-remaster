@@ -10,6 +10,9 @@ dbus-uuidgen > /var/lib/dbus/machine-id
 dpkg-divert --local --rename --add /sbin/initctl
 ln -s /bin/true /sbin/initctl
 
+sudo apt-get purge libreoffice* empathy evolution zeitgeist totem rhythmbox -y
+sudo apt-get purge aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines -y
+
 echo ""
 echo "Ready for changes!"
 echo "When finished, exit this script's prompt. Additional cleanup"
