@@ -60,9 +60,9 @@ echo ""
 
 sudo chroot edit /bin/bash "/iso-chroot-main.sh"
 
-#uncomment if adding new kernel...
-#sudo cp edit/boot/vmlinuz-* extract-cd/casper/vmlinuz
-#sudo cp edit/boot/initrd.img-* extract-cd/casper/initrd.lz
+#In case we added a new kernel.
+sudo cp edit/boot/vmlinuz-* extract-cd/casper/vmlinuz
+sudo cp edit/boot/initrd.img-* extract-cd/casper/initrd.lz
 
 echo ""
 echo "   Leaving chroot..."
@@ -107,9 +107,15 @@ sudo rm md5sum.txt
 find -type f -print0 | sudo xargs -0 md5sum | grep -v isolinux/boot.cat | sudo tee md5sum.txt
 
 #sudo mkisofs -D -r -V "$IMAGE_NAME" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $path/tmp/custom.iso .
-#sudo xorriso -as mkisofs -no-emul-boot -boot-load-size 4 -boot-info-table -iso-level 4 -b isolinux/isolinux.bin -c isolinux/boot.cat -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -o $path/tmp/custom.iso .
-sudo xorriso -as mkisofs -o $path/tmp/custom.iso -isohybrid-mbr /usr/lib/syslinux/isohdpfx.bin -c isolinux/boot.cat -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table .
-#sudo isohybrid $path/tmp/custom.iso
+
+sudo xorriso -as mkisofs -no-emul-boot -boot-load-size 4 -boot-info-table -iso-level 4 -b isolinux/isolinux.bin -c isolinux/boot.cat -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -o $path/tmp/custom.iso .
+
+#sudo xorriso -as mkisofs -o $path/tmp/custom.iso -isohybrid-mbr /usr/lib/syslinux/isohdpfx.bin -c isolinux/boot.cat -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table .
+
+#sudo genisoimage -o $path/tmp/custom.iso -c isolinux/boot.cat -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e isolinux/efiboot.img -no-emul-boot .
+
+sudo isohybrid $path/tmp/custom.iso
+
 #sudo isohybrid --uefi $path/tmp/custom.iso
 
 echo "   Done: $path/tmp/custom.iso"

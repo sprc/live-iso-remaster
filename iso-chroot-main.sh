@@ -13,21 +13,32 @@ ln -s /bin/true /sbin/initctl
 sudo apt-get purge libreoffice* empathy evolution zeitgeist totem rhythmbox -y
 sudo apt-get purge aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines -y
 
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt-get install -y nano gedit xfce4-terminal firefox bash-completion gnome-system-monitor gnome-tweak-tool gnome-calculator openconnect openvpn freerdp unclutter git pulseaudio gparted gnome-screenshot xdotool pv
+sudo apt-get install -y chromium-browser
+sudo apt-get install -y ubuntu-restricted-extras
+sudo apt-get install -y pepperflashplugin-nonfree
+sudo update-pepperflashplugin-nonfree --install --verbose
+sudo apt-add-repository -y ppa:mjblenner/ppa-hal
+sudo apt-get install -y hal
+#sudo apt-get install -y gimp
+
 echo ""
-echo "Ready for changes!"
+echo "Inside the chroot, ready for changes."
 echo "When finished, exit this script's prompt. Additional cleanup"
-echo "will then be done, whereupon you can exit the chroot."
+echo "will then be done and you will be exited out of the chroot."
 
 bash
 
-sudo apt-get autoclean
-sudo apt-get clean
+sudo apt-get autoremove -y
+sudo apt-get autoclean -y
+sudo apt-get clean -y
 
-rm -rf /tmp/*
-rm ~/.bash_history
+sudo rm -rf /tmp/*
+sudo rm ~/.bash_history
 
-rm /var/lib/dbus/machine-id
-rm /sbin/initctl
+sudo rm /var/lib/dbus/machine-id
+sudo rm /sbin/initctl
 dpkg-divert --rename --remove /sbin/initctl
 
 sudo umount /proc
