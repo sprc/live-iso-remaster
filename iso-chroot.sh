@@ -15,7 +15,7 @@ fi
 sudo apt-get install squashfs-tools curl syslinux-utils xorriso
 
 #create ramdisk, move iso into it
-sh ramdisk.sh
+sh ramdisk.sh tmp 8g
 cd tmp
 cp "$iso" pre.iso
 sync
