@@ -13,12 +13,18 @@ ln -s /bin/true /sbin/initctl
 sudo apt-get purge libreoffice* empathy evolution zeitgeist totem rhythmbox -y
 sudo apt-get purge aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines -y
 
+sudo apt-mark hold linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
+#sudo apt-get purge linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
+cd tmp
+sudo apt-get purge linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
+cd /
+
 sudo apt-get update -y && sudo apt-get upgrade -y
 sudo apt-get install -y nano gedit xfce4-terminal firefox bash-completion gnome-system-monitor gnome-tweak-tool gnome-calculator openconnect openvpn freerdp unclutter git pulseaudio gparted gnome-screenshot xdotool pv
-sudo apt-get install -y chromium-browser
+#sudo apt-get install -y chromium-browser
 sudo apt-get install -y ubuntu-restricted-extras
-sudo apt-get install -y pepperflashplugin-nonfree
-sudo update-pepperflashplugin-nonfree --install --verbose
+#sudo apt-get install -y pepperflashplugin-nonfree
+#sudo update-pepperflashplugin-nonfree --install --verbose
 sudo apt-add-repository -y ppa:mjblenner/ppa-hal
 sudo apt-get install -y hal
 #sudo apt-get install -y gimp

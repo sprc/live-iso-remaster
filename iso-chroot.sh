@@ -41,12 +41,13 @@ sudo cp "$path/iso-chroot-main.sh" "$path/tmp/edit/iso-chroot-main.sh"
 #curl -LO https://github.com/tsowell/linux-samus/releases/download/v0.2.2/linux-samus-ubuntu-0.2.2.tar
 #cp $path/../linux-samus/linux-samus-ubuntu*.tar $path/tmp/
 #tar xvf linux-samus-ubuntu-0.2.2.tar
-#cd linux-samus-ubuntu*
-#cp *.deb "$path/tmp/edit/"
+cd ~/src/linux-samus/linux-samus-ubuntu*
+cp *.deb "$path/tmp/edit/"
+cd $path/tmp
 
 echo "   Drop anything you will need in the chroot into tmp/edit."
 echo "   Exit when ready to enter."
-#bash
+bash
 
 cd $path/tmp
 
@@ -61,8 +62,10 @@ echo ""
 sudo chroot edit /bin/bash "/iso-chroot-main.sh"
 
 #In case we added a new kernel.
-sudo cp edit/boot/vmlinuz-* extract-cd/casper/vmlinuz
-sudo cp edit/boot/initrd.img-* extract-cd/casper/initrd.lz
+#sudo cp edit/boot/vmlinuz-* extract-cd/casper/vmlinuz
+sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz
+#sudo cp edit/boot/initrd.img-* extract-cd/casper/initrd.lz
+sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
 
 echo ""
 echo "   Leaving chroot..."
