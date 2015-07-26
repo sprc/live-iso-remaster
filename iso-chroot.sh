@@ -17,7 +17,7 @@ sudo apt-get install squashfs-tools curl syslinux-utils xorriso
 #create ramdisk, move iso into it
 sh ramdisk.sh tmp 8g
 cd tmp
-cp "$iso" pre.iso
+sudo cp "$iso" pre.iso
 sync
 
 mkdir mnt
@@ -42,14 +42,13 @@ sudo cp "$path/iso-chroot-main.sh" "$path/tmp/edit/iso-chroot-main.sh"
 #cp $path/../linux-samus/linux-samus-ubuntu*.tar $path/tmp/
 #tar xvf linux-samus-ubuntu-0.2.2.tar
 cd ~/src/linux-samus/linux-samus-ubuntu*
-cp *.deb "$path/tmp/edit/"
+sudo cp *.deb "$path/tmp/edit/"
 cd $path/tmp
 
-echo "   Drop anything you will need in the chroot into tmp/edit."
-echo "   Exit when ready to enter."
-bash
-
-cd $path/tmp
+#echo "   Drop anything you will need in the chroot into tmp/edit."
+#echo "   Exit when ready to enter."
+#bash
+#cd $path/tmp
 
 sudo mount --bind /dev/ edit/dev
 sudo mount -o bind /run/ edit/run
@@ -61,24 +60,41 @@ echo ""
 
 sudo chroot edit /bin/bash "/iso-chroot-main.sh"
 
-#In case we added a new kernel.
-#sudo cp edit/boot/vmlinuz-* extract-cd/casper/vmlinuz
-sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz
-#sudo cp edit/boot/initrd.img-* extract-cd/casper/initrd.lz
-sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
-
 echo ""
 echo "   Leaving chroot..."
 echo ""
 echo "Do any additional stuff you want to do, then exit."
 echo "When you exit, we'll repack the iso and clean everything up."
 echo ""
+
+
+cd $path/tmp
 bash
+#In case we added a new kernel.
+#sudo cp edit/vmlinuz* extract-cd/casper/vmlinuz.efi
+#sudo cp edit/boot/vmlinuz* extract-cd/casper/vmlinuz.efi
+#sudo rm extract-cd/casper/vmlinuz.efi'
+#sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz
+#sudo cp edit/boot/initrd.img* extract-cd/casper/initrd.lz
+#sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
+
+cd $path/tmp
+
+#sudo bash -c "for file in edit/boot/vmlinuz*; do cp $file extract-cd/casper/vmlinuz; done"
+#sudo bash -c "for file in edit/boot/initrd.img*; do cp $file extract-cd/casper/initrd.lz; done"
 
 cd $path
 #sudo rm linux-samus-ubuntu-0.2.2.tar
 sudo rm $path/tmp/edit/iso-chroot-main.sh
 cd tmp
+cd extract-cd
+cd isolinux
+sudo sed -i 's/ui gfxboot bootlogo/#ui gfxboot bootlogo/g' isolinux.cfg
+sudo sed -i 's/quiet splash/toram/g' txt.cfg
+
+#cd $path
+#bash
+cd $path/tmp
 
 echo "   Regenerating manifest..."
 
@@ -102,7 +118,7 @@ sudo mksquashfs edit extract-cd/casper/filesystem.squashfs
 
 sudo bash -c "printf $(sudo du -sx --block-size=1 edit | cut -f1) > extract-cd/casper/filesystem.size"
 
-sudo nano extract-cd/README.diskdefines
+#sudo nano extract-cd/README.diskdefines
 
 echo "   Recalculating md5 sums..."
 cd extract-cd
@@ -121,10 +137,31 @@ sudo isohybrid $path/tmp/custom.iso
 
 #sudo isohybrid --uefi $path/tmp/custom.iso
 
-echo "   Done: $path/tmp/custom.iso"
-echo "   Exit when you are ready to delete tmp and its children."
+cd $path/tmp
 
-bash
+echo "cp custom.iso ~/Downloads/custom.iso ..."
+cp custom.iso ~/Downloads/custom.iso
+
+usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 1.9 GiB")
+
+echo $usbcheck
+
+if [ "$usbcheck" != "" ]; then
+        echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
+        sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
+else
+        echo "Couldn't find USB"
+	bash
+fi
+
+echo "Syncing..."
+sync
+
+#echo "   Done: $path/tmp/custom.iso"
+#echo "   Exit when you are ready to delete tmp and its children."
+#bash
+
+echo "Cleaning things up..."
 
 cd $path
 sudo umount $path/tmp/mnt
