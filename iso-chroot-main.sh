@@ -15,6 +15,8 @@ sudo apt-add-repository -y ppa:mjblenner/ppa-hal
 sudo apt-get purge -y libreoffice* empathy evolution zeitgeist totem rhythmbox
 sudo apt-get purge -y aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines
 sudo apt-get purge -y firefox
+sudo apt-get purge -y ubuntu-gnome-desktop
+sudo apt-get purge -y yelp transmission-* software-center* gnome-tweak-tool gnome-sushi fonts-tlwg-* evince evince-common brasero brasero-*
 
 #sudo apt-mark hold linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
 sudo apt-get purge -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
@@ -25,7 +27,7 @@ sudo dpkg -i *.deb
 
 #sudo apt-get install -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
 
-sudo apt-get update -y && sudo apt-get upgrade -y
+#sudo apt-get update -y && sudo apt-get upgrade -y
 #sudo apt-get install -y nano gedit xfce4-terminal firefox bash-completion gnome-system-monitor gnome-tweak-tool gnome-calculator openconnect openvpn freerdp unclutter git pulseaudio gparted gnome-screenshot xdotool pv
 #sudo apt-get install -y chromium-browser
 #sudo apt-get install -y ubuntu-restricted-extras
