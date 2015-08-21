@@ -64,7 +64,7 @@ echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/v
 sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi
 echo "sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz"
 sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
-bash
+#bash
 
 cd $path/tmp
 

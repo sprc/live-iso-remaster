@@ -14,9 +14,10 @@ sudo apt-add-repository -y ppa:mjblenner/ppa-hal
 
 sudo apt-get purge -y libreoffice* empathy evolution zeitgeist totem rhythmbox
 sudo apt-get purge -y aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines
-sudo apt-get purge -y firefox
+#sudo apt-get purge -y firefox
 sudo apt-get purge -y ubuntu-gnome-desktop
-sudo apt-get purge -y yelp transmission-* software-center* gnome-tweak-tool gnome-sushi fonts-tlwg-* evince evince-common brasero brasero-*
+sudo apt-get purge -y yelp transmission-* software-center* gnome-tweak-tool gnome-sushi fonts-tlwg-* evince evince-common brasero brasero-* gnome-orca*
+sudo apt-get purge -y gnome-accessibility-themes fonts-guru* fonts-kacst* fonts-lao fonts-nanum fonts-lohit-guru fonts-khmeros-core fonts-sil-* fonts-takao-* fonts-tibetan-* gnome-disk-utility gnome-documents gnome-font-viewer gnome-online-* usb-creator-* cups cups-browsed cups-bsd cups-client cups-common cups-core-drivers cups-daemon cups-filters cups-filters-core-drivers cups-server-common cups-pk-helper cups-server-common gnome-keyring eog
 
 #sudo apt-mark hold linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
 sudo apt-get purge -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
@@ -37,12 +38,10 @@ sudo dpkg -i *.deb
 #sudo apt-get install -y gimp
 
 #echo ""
-echo "Inside the chroot, ready for changes."
+#echo "Inside the chroot, ready for changes."
 #echo "When finished, exit this script's prompt. Additional cleanup"
 #echo "will then be done and you will be exited out of the chroot."
 #bash
-
-bash
 
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
