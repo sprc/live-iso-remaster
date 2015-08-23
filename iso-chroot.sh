@@ -121,6 +121,11 @@ usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 1.9 GiB")
 
 echo $usbcheck
 
+if [ "$usbcheck " = " " ]; then
+	usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 14.5 GiB")
+	echo $usbcheck
+fi
+
 if [ "$usbcheck" != "" ]; then
         echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
         sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
