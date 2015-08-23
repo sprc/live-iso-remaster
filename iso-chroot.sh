@@ -37,6 +37,7 @@ sudo mv squashfs-root/* edit
 sudo cp "$path/iso-chroot-main.sh" "$path/tmp/edit/iso-chroot-main.sh"
 
 #cd ~/src/linux-4.1-samus/build/debian
+#sudo cp *.deb "$path/tmp/edit/"
 cd ~/src/linux-samus/linux-samus-ubuntu-0.2.2
 sudo cp *.deb "$path/tmp/edit/"
 cd $path/tmp
@@ -62,8 +63,14 @@ cd $path/tmp
 
 echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi"
 sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi
+echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz"
+sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz
+#sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi
+#sudo cp edit/vmlinuz extract-cd/casper/vmlinuz.efi
 echo "sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz"
 sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
+#sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
+#sudo cp edit/initrd.img extract-cd/casper/initrd.lz
 #bash
 
 cd $path/tmp
