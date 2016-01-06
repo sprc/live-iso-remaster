@@ -24,6 +24,8 @@ sudo apt-get purge -y baobab update-manager update-notifier update-manager-core 
 sudo apt-get purge -y tracker tracker-extract tracker-miner-fs tracker-utils libtracker-* 
 sudo apt-get purge -y yelp* deja-dup*
 sudo apt-get purge -y whoopsie libwhoopsie0
+sudo apt-get install -y chromium-browser
+sudo apt-get update && sudo apt-get upgrade -y
 
 #sudo apt-mark hold linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
 
@@ -31,8 +33,8 @@ cd /
 sudo dpkg -i *.deb
 
 cd /tmp
-sudo apt-get purge -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
-sudo apt-get purge -y linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
+#sudo apt-get purge -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
+#sudo apt-get purge -y linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
 
 #sudo apt-get install -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
 
@@ -49,7 +51,7 @@ sudo apt-get purge -y linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* 
 #echo "Inside the chroot, ready for changes."
 #echo "When finished, exit this script's prompt. Additional cleanup"
 #echo "will then be done and you will be exited out of the chroot."
-bash
+#bash
 
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y

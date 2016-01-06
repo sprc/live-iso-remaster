@@ -17,7 +17,7 @@ sudo apt-get install squashfs-tools curl syslinux-utils xorriso
 #create ramdisk, move iso into it
 sh ramdisk.sh tmp 8g
 cd tmp
-sudo cp "$iso" pre.iso
+sudo pv < "$iso" > pre.iso
 sync
 
 mkdir mnt
@@ -34,12 +34,17 @@ sync
 sudo unsquashfs mnt/casper/filesystem.squashfs
 sync
 sudo mv squashfs-root/* edit
-sudo cp "$path/iso-chroot-main.sh" "$path/tmp/edit/iso-chroot-main.sh"
+sudo pv < "$path/iso-chroot-main.sh" > "$path/tmp/edit/iso-chroot-main.sh"
+sync
 
 #cd ~/src/linux-4.1-samus/build/debian
 #sudo cp *.deb "$path/tmp/edit/"
-cd ~/src/linux-samus/linux-samus-ubuntu-0.2.2
-sudo cp *.deb "$path/tmp/edit/"
+
+sudo cp ~/WiFi.txt "$path/tmp/edit/"
+
+#cd ~/src/linux-samus/linux-samus-ubuntu-0.2.2
+#sudo cp *.deb "$path/tmp/edit/"
+
 cd $path/tmp
 
 sudo mount --bind /dev/ edit/dev
@@ -62,13 +67,13 @@ echo ""
 cd $path/tmp
 
 echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi"
-sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi
+sudo pv < edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic > extract-cd/casper/vmlinuz.efi
 echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz"
-sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz
+sudo pv < edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic > extract-cd/casper/vmlinuz
 #sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi
 #sudo cp edit/vmlinuz extract-cd/casper/vmlinuz.efi
 echo "sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz"
-sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
+sudo pv < edit/boot/initrd.img-3.19.0-11.11+samus-1-generic > extract-cd/casper/initrd.lz
 #sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
 #sudo cp edit/initrd.img extract-cd/casper/initrd.lz
 #bash
@@ -89,7 +94,7 @@ cd $path/tmp
 echo "   Regenerating manifest..."
 sudo chmod +w extract-cd/casper/filesystem.manifest
 sudo bash -c "chroot edit dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest"
-sudo cp extract-cd/casper/filesystem.manifest extract-cd/casper/filesystem.manifest-desktop
+sudo pv < extract-cd/casper/filesystem.manifest > extract-cd/casper/filesystem.manifest-desktop
 sudo sed -i '/ubiquity/d' extract-cd/casper/filesystem.manifest-desktop
 sudo sed -i '/casper/d' extract-cd/casper/filesystem.manifest-desktop
 
@@ -122,7 +127,10 @@ sudo isohybrid $path/tmp/custom.iso
 
 echo "cp custom.iso ~/Downloads/custom.iso ..."
 cd $path/tmp
-cp custom.iso ~/Downloads/custom.iso
+
+sync
+pv < custom.iso > ~/Downloads/custom.iso
+sync
 
 usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 1.9 GiB")
 
@@ -137,7 +145,8 @@ if [ "$usbcheck" != "" ]; then
         echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
         sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
 else
-        echo "Couldn't find USB"
+        echo "Couldn't find USB!"
+	echo "Poke around if you like; 'exit' to continue."
 	bash
 fi
 
