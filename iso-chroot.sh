@@ -34,7 +34,7 @@ sync
 sudo unsquashfs mnt/casper/filesystem.squashfs
 sync
 sudo mv squashfs-root/* edit
-sudo pv < "$path/iso-chroot-main.sh" > "$path/tmp/edit/iso-chroot-main.sh"
+sudo pv < "$path/inside-chroot.sh" > "$path/tmp/edit/inside-chroot.sh"
 sync
 
 #cd ~/src/linux-4.1-samus/build/debian
@@ -55,7 +55,7 @@ echo ""
 echo "   Entering chroot..."
 echo ""
 
-sudo chroot edit /bin/bash "/iso-chroot-main.sh"
+sudo chroot edit /bin/bash "/inside-chroot.sh"
 
 echo ""
 echo "   Leaving chroot..."
@@ -81,7 +81,8 @@ sudo pv < edit/boot/initrd.img-3.19.0-11.11+samus-1-generic > extract-cd/casper/
 cd $path/tmp
 
 cd $path
-sudo rm $path/tmp/edit/iso-chroot-main.sh
+#sudo rm $path/tmp/edit/iso-chroot-main.sh
+sudo rm $path/tmp/edit/inside-chroot.sh
 sudo rm $path/tmp/edit/*.deb
 cd tmp
 cd extract-cd

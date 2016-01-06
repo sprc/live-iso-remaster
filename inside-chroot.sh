@@ -12,6 +12,10 @@ sudo ln -s /bin/true /sbin/initctl
 
 sudo apt-add-repository -y ppa:mjblenner/ppa-hal
 
+sudo add-apt-repository -y ppa:saiarcot895/myppa
+sudo apt-get update
+sudo apt-get install -y apt-fast
+
 sudo apt-get purge -y libreoffice* empathy evolution zeitgeist totem rhythmbox
 sudo apt-get purge -y aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines
 #sudo apt-get purge -y firefox
@@ -24,8 +28,8 @@ sudo apt-get purge -y baobab update-manager update-notifier update-manager-core 
 sudo apt-get purge -y tracker tracker-extract tracker-miner-fs tracker-utils libtracker-* 
 sudo apt-get purge -y yelp* deja-dup*
 sudo apt-get purge -y whoopsie libwhoopsie0
-sudo apt-get install -y chromium-browser
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-fast update && sudo apt-fast upgrade -y
+sudo apt-fast install -y chromium-browser
 
 #sudo apt-mark hold linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
 
