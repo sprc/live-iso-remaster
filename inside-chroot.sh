@@ -3,8 +3,8 @@ sudo mount -t proc none /proc
 sudo mount -t sysfs none /sys
 sudo mount -t devpts none /dev/pts
 
-sudo export HOME=/root
-sudo export LC_ALL=C
+export HOME=/root
+export LC_ALL=C
 
 sudo dbus-uuidgen > /var/lib/dbus/machine-id
 sudo dpkg-divert --local --rename --add /sbin/initctl
@@ -19,43 +19,54 @@ sudo apt-get install -y apt-fast
 sudo apt-get purge -y libreoffice* empathy evolution zeitgeist totem rhythmbox
 sudo apt-get purge -y aisleriot gnome-mahjongg gnome-weather gnome-maps gnome-sudoku gnome-mines
 #sudo apt-get purge -y firefox
-sudo apt-get purge -y ubuntu-gnome-desktop
+sudo apt-get purge -y ubuntu-gnome-desktop ubiquity
 sudo apt-get purge -y yelp transmission-* software-center* gnome-tweak-tool gnome-sushi fonts-tlwg-* evince evince-common brasero brasero-* gnome-orca*
 #sudo apt-get purge -y gnome-keyring
 sudo apt-get purge -y gnome-accessibility-themes fonts-guru* fonts-kacst* fonts-lao fonts-nanum fonts-lohit-guru fonts-khmeros-core fonts-sil-* fonts-takao-* fonts-tibetan-* gnome-disk-utility gnome-documents gnome-font-viewer gnome-online-* usb-creator-* cups cups-browsed cups-bsd cups-client cups-common cups-core-drivers cups-daemon cups-filters cups-filters-core-drivers cups-server-common cups-pk-helper cups-server-common eog
 sudo apt-get purge -y gucharmap cheese gnome-user-share gnome-video-effects
 sudo apt-get purge -y baobab update-manager update-notifier update-manager-core update-notifier-common
-sudo apt-get purge -y tracker tracker-extract tracker-miner-fs tracker-utils libtracker-* 
+#sudo apt-get purge tracker tracker-extract tracker-miner-fs tracker-utils libtracker-* 
 sudo apt-get purge -y yelp* deja-dup*
 sudo apt-get purge -y whoopsie libwhoopsie0
-sudo apt-fast update && sudo apt-fast upgrade -y
-sudo apt-fast install -y chromium-browser
+#sudo apt-fast update && sudo apt-fast upgrade -y
 
 #sudo apt-mark hold linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
 
-cd /
-sudo dpkg -i *.deb
+#cd /
+#sudo dpkg -i *.deb
 
 cd /tmp
+
 #sudo apt-get purge -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic
 #sudo apt-get purge -y linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
 
 #sudo apt-get install -y linux-image-generic linux-headers-generic linux-generic linux-signed-image-generic linux-signed-headers-generic linux-headers-3.19.0-15* linux-headers-3.19.0-15-generic* linux-image-3.19.0-15-generic* linux-image-extra-3.19.0-15-generic* linux-signed-image-3.19.0-15-generic* linux-signed-image-generic*
 
 #sudo apt-get update -y && sudo apt-get upgrade -y
-#sudo apt-get install -y nano gedit xfce4-terminal firefox bash-completion gnome-system-monitor gnome-tweak-tool gnome-calculator openconnect openvpn freerdp unclutter git pulseaudio gparted gnome-screenshot xdotool pv
-#sudo apt-get install -y chromium-browser
-#sudo apt-get install -y ubuntu-restricted-extras
+
+sudo apt-fast install -y nano gedit xfce4-terminal firefox bash-completion gnome-system-monitor gnome-tweak-tool gnome-calculator openconnect openvpn freerdp unclutter git pulseaudio gparted gnome-screenshot xdotool pv
+#sudo apt-fast install -y chromium-browser
+#sudo apt-fast install -y ubuntu-restricted-extras
+
 #sudo apt-get install -y pepperflashplugin-nonfree
 #sudo update-pepperflashplugin-nonfree --install --verbose
-#sudo apt-get install -y hal
-#sudo apt-get install -y gimp
 
-#echo ""
-#echo "Inside the chroot, ready for changes."
-#echo "When finished, exit this script's prompt. Additional cleanup"
-#echo "will then be done and you will be exited out of the chroot."
-#bash
+#sudo apt-fast install -y hal
+#sudo apt-fast install -y gimp
+
+cd /home
+mkdir ubuntu-gnome
+cd ubuntu-gnome
+mkdir src
+cd src
+git clone https://github.com/sprc/live-iso-remaster.git
+git clone https://github.com/sprc/utility-scripts.git
+
+echo ""
+echo "Inside the chroot, ready for changes."
+echo "When finished, exit this script's prompt. Additional cleanup"
+echo "will then be done and you will be exited out of the chroot."
+bash
 
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y

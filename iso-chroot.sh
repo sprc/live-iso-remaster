@@ -40,12 +40,13 @@ sync
 #cd ~/src/linux-4.1-samus/build/debian
 #sudo cp *.deb "$path/tmp/edit/"
 
-sudo cp ~/WiFi.txt "$path/tmp/edit/"
+#sudo cp ~/WiFi.txt "$path/tmp/edit/"
 
 #cd ~/src/linux-samus/linux-samus-ubuntu-0.2.2
 #sudo cp *.deb "$path/tmp/edit/"
 
 cd $path/tmp
+sudo pv < pre.iso > $path/tmp/edit/pre.iso
 
 sudo mount --bind /dev/ edit/dev
 sudo mount -o bind /run/ edit/run
@@ -66,14 +67,14 @@ echo ""
 
 cd $path/tmp
 
-echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi"
-sudo pv < edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic > extract-cd/casper/vmlinuz.efi
-echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz"
-sudo pv < edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic > extract-cd/casper/vmlinuz
+#echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi"
+#sudo pv < edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic > extract-cd/casper/vmlinuz.efi
+#echo "sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz"
+#sudo pv < edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic > extract-cd/casper/vmlinuz
 #sudo cp edit/boot/vmlinuz-3.19.0-11.11+samus-1-generic extract-cd/casper/vmlinuz.efi
 #sudo cp edit/vmlinuz extract-cd/casper/vmlinuz.efi
-echo "sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz"
-sudo pv < edit/boot/initrd.img-3.19.0-11.11+samus-1-generic > extract-cd/casper/initrd.lz
+#echo "sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz"
+#sudo pv < edit/boot/initrd.img-3.19.0-11.11+samus-1-generic > extract-cd/casper/initrd.lz
 #sudo cp edit/boot/initrd.img-3.19.0-11.11+samus-1-generic extract-cd/casper/initrd.lz
 #sudo cp edit/initrd.img extract-cd/casper/initrd.lz
 #bash
@@ -95,7 +96,7 @@ cd $path/tmp
 echo "   Regenerating manifest..."
 sudo chmod +w extract-cd/casper/filesystem.manifest
 sudo bash -c "chroot edit dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest"
-sudo pv < extract-cd/casper/filesystem.manifest > extract-cd/casper/filesystem.manifest-desktop
+sudo cp extract-cd/casper/filesystem.manifest extract-cd/casper/filesystem.manifest-desktop
 sudo sed -i '/ubiquity/d' extract-cd/casper/filesystem.manifest-desktop
 sudo sed -i '/casper/d' extract-cd/casper/filesystem.manifest-desktop
 
@@ -126,12 +127,11 @@ sudo isohybrid $path/tmp/custom.iso
 
 #sudo isohybrid --uefi $path/tmp/custom.iso
 
-echo "cp custom.iso ~/Downloads/custom.iso ..."
+#echo "cp custom.iso ~/Downloads/custom.iso & ..."
 cd $path/tmp
-
 sync
-pv < custom.iso > ~/Downloads/custom.iso
-sync
+#sudo bash -c "cp custom.iso ~/Downloads/custom.iso &"
+sudo pv < custom.iso > ~/Downloads/custom.iso
 
 usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 1.9 GiB")
 
@@ -141,6 +141,8 @@ if [ "$usbcheck " = " " ]; then
 	usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 14.5 GiB")
 	echo $usbcheck
 fi
+
+#usbcheck=""
 
 if [ "$usbcheck" != "" ]; then
         echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
