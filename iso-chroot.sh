@@ -30,20 +30,14 @@ sudo rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
 sync
 
 #unsquash to 'edit', enter chroot
-
 sudo unsquashfs mnt/casper/filesystem.squashfs
 sync
 sudo mv squashfs-root/* edit
-sudo pv < "$path/inside-chroot.sh" > "$path/tmp/edit/inside-chroot.sh"
 sync
-
-#cd ~/src/linux-4.1-samus/build/debian
-#sudo cp *.deb "$path/tmp/edit/"
-
-#sudo cp ~/WiFi.txt "$path/tmp/edit/"
-
-#cd ~/src/linux-samus/linux-samus-ubuntu-0.2.2
-#sudo cp *.deb "$path/tmp/edit/"
+sudo pv < "$path/inside-chroot.sh" > "$path/tmp/edit/inside-chroot.sh"
+sudo mkdir "$path/tmp/edit/chroot-scripts"
+sudo cp $path/chroot-scripts/* $path/tmp/edit/chroot-scripts/
+sync
 
 cd $path/tmp
 sudo pv < pre.iso > $path/tmp/edit/pre.iso
@@ -127,11 +121,10 @@ sudo isohybrid $path/tmp/custom.iso
 
 #sudo isohybrid --uefi $path/tmp/custom.iso
 
-#echo "cp custom.iso ~/Downloads/custom.iso & ..."
+echo "cp custom.iso ~/Downloads/custom.iso & ..."
 cd $path/tmp
-sync
-#sudo bash -c "cp custom.iso ~/Downloads/custom.iso &"
-sudo pv < custom.iso > ~/Downloads/custom.iso
+sudo bash -c "cp custom.iso ~/Downloads/custom.iso &"
+#sudo pv < custom.iso > ~/Downloads/custom.iso
 
 usbcheck=$(sudo fdisk -l | grep "Disk /dev/sdc: 1.9 GiB")
 
@@ -142,15 +135,13 @@ if [ "$usbcheck " = " " ]; then
 	echo $usbcheck
 fi
 
-#usbcheck=""
+usbcheck=""
 
 if [ "$usbcheck" != "" ]; then
         echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
         sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
 else
         echo "Couldn't find USB!"
-	echo "Poke around if you like; 'exit' to continue."
-	bash
 fi
 
 echo "Syncing..."
