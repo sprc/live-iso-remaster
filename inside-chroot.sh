@@ -7,4 +7,3 @@ do
 	bash -c "./$f"
 done
 cd /
-bash

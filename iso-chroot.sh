@@ -12,13 +12,20 @@ if ! [ -e $1 ]; then
 	exit
 fi
 
+cd $path
+sudo rm -r utility-scripts
+git clone https://github.com/sprc/utility-scripts.git
+utilpath=$path/utility-scripts
+
 sudo apt-get install squashfs-tools curl syslinux-utils xorriso
 
 #create ramdisk, move iso into it
 sh ramdisk.sh tmp 8g
 cd tmp
 sudo pv < "$iso" > pre.iso
-sync
+cd $utilpath
+./sync-wait.sh
+cd $path/tmp
 
 mkdir mnt
 mkdir extract-cd
@@ -26,7 +33,7 @@ mkdir edit
 
 #mount the iso to 'mnt', extract it to 'extract-cd'
 sudo mount -o loop pre.iso mnt
-sudo rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
+sudo rsync --progress --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
 sync
 
 #unsquash to 'edit', enter chroot
@@ -40,7 +47,7 @@ sudo cp $path/chroot-scripts/* $path/tmp/edit/chroot-scripts/
 sync
 
 cd $path/tmp
-sudo pv < pre.iso > $path/tmp/edit/pre.iso
+#sudo pv < pre.iso > $path/tmp/edit/pre.iso
 
 sudo mount --bind /dev/ edit/dev
 sudo mount -o bind /run/ edit/run
@@ -76,8 +83,8 @@ cd $path/tmp
 cd $path/tmp
 
 cd $path
-#sudo rm $path/tmp/edit/iso-chroot-main.sh
 sudo rm $path/tmp/edit/inside-chroot.sh
+sudo rm -r $path/tmp/edit/chroot-scripts
 sudo rm $path/tmp/edit/*.deb
 cd tmp
 cd extract-cd
@@ -135,8 +142,6 @@ if [ "$usbcheck " = " " ]; then
 	echo $usbcheck
 fi
 
-usbcheck=""
-
 if [ "$usbcheck" != "" ]; then
         echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
         sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
@@ -145,7 +150,9 @@ else
 fi
 
 echo "Syncing..."
-sync
+
+cd $utilpath
+./sync-wait.sh
 
 echo "Cleaning things up..."
 
