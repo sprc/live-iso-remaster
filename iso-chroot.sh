@@ -159,4 +159,5 @@ echo "Cleaning things up..."
 cd $path
 sudo umount $path/tmp/mnt
 sudo umount $path/tmp
+sudo rm -r utility-scripts
 sudo rm -r tmp
