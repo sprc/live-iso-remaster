@@ -62,9 +62,9 @@ sudo chroot edit /bin/bash "/inside-chroot.sh"
 echo ""
 echo "   Leaving chroot..."
 echo ""
-echo "Do any additional stuff you want to do, then exit."
-echo "When you exit, we'll repack the iso and clean everything up."
-echo ""
+#echo "Do any additional stuff you want to do, then exit."
+#echo "When you exit, we'll repack the iso and clean everything up."
+#echo ""
 
 cd $path/tmp
 
@@ -144,7 +144,8 @@ fi
 
 if [ "$usbcheck" != "" ]; then
         echo "sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc ..."
-        sh $path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
+        #$path/burn-usb.sh $path/tmp/custom.iso /dev/sdc
+	sudo dd bs=4M if="$path/tmp/custom.iso" of=/dev/sdc &
 else
         echo "Couldn't find USB!"
 fi
@@ -152,6 +153,7 @@ fi
 echo "Syncing..."
 
 cd $utilpath
+sleep 1
 ./sync-wait.sh
 
 echo "Cleaning things up..."
